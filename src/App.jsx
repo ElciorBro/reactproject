@@ -1,12 +1,12 @@
 import { useEffect, useState, useReducer, useContext, createContext } from 'react';
 import { BrowserRouter as Router,Routes, Route, Outlet, Link, useParams, Navigate, useLocation } from 'react-router-dom';
-import {NavBar, Footer, Layout, NoMatch } from './component/principalComponent.jsx';
-import {  Home } from './component/home.jsx';
+import {NavBar, Footer, Layout, NoMatch } from './component/PrincipalComponent.jsx';
+import {  Home } from './component/Home.jsx';
 
 import './App.css'
-import { Login } from './component/login.jsx';
-import { Registration } from './component/register.jsx';
-import { Carrito } from './component/carrito.jsx';
+import { Login } from './component/Login.jsx';
+import { Registration } from './component/Register.jsx';
+import { Carrito } from './component/Carrito.jsx';
 
 function App() {
   return (
@@ -27,6 +27,7 @@ function App() {
     </>
   );
 }
+
 
 export default App;
 

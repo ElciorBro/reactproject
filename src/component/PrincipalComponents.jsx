@@ -2,10 +2,7 @@ import React from 'react';
 import { useEffect, useState, useReducer, useContext, createContext } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import styles from '../css/principalComponent.module.css';
-import { Home } from './home.jsx';
-import { Registration } from './register';
-import { Login } from './login';
-import { Carrito } from './carrito';
+import { Home } from './Home.jsx';
 
 function NavBar() {
   console.log("renderizando navbar");
