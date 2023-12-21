@@ -1,17 +1,43 @@
 import React from 'react';
 import { useEffect, useState, useReducer, useContext, createContext } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link, Outlet } from 'react-router-dom';
 import styles from '../css/principalComponent.module.css';
 import { Home } from './Home.jsx';
+import { useAppContext } from '../hooks/authHook.jsx';
 
 function NavBar() {
+  const { state, dispatch } = useAppContext();
   console.log("renderizando navbar");
 
+  return (
+    <>
+      {state.online? (
+          <LogedNavBar />
+        ):(
+          <NoLogedNavBar />
+        )}
+    </>
+  );
+};
+
+function NoLogedNavBar() {
   return (
     <nav className={styles.navbarContainer}>
       <Link to="/" className={styles.logo}>Logo</Link>
       <Link to="/login" className={styles.links}>Login</Link>
       <Link to="/register" className={styles.links}>Register</Link>
+      <input className={styles.links} type="text" placeholder="Search" />
+      <Link to="/carrito" className={styles.links}>Carrito</Link>
+    </nav>
+  );
+}
+
+function LogedNavBar() {
+  return (
+    <nav className={styles.navbarContainer}>
+      <Link to="/" className={styles.logo}>Logo</Link>
+      <Link to="/cuenta" className={styles.links}>Mi Cuenta</Link>
+      <Link to="/" className={styles.links}>Salir</Link>
       <input className={styles.links} type="text" placeholder="Search" />
       <Link to="/carrito" className={styles.links}>Carrito</Link>
     </nav>
@@ -30,6 +56,7 @@ function Layout({ children }) {
         <NavBar />
         <CategoryNav />
         <div>
+          <Outlet />
           {children}
         </div>
         <Footer />
