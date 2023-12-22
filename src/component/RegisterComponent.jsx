@@ -2,6 +2,9 @@ import { useEffect, useState, useReducer, useContext, createContext } from 'reac
 import { BrowserRouter as Router,Routes, Route, Outlet, Link, useParams, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import styles from '../css/registrationForm.module.css';
 // import { saveUser } from '../utils/saveUser.js'
+import { useAppContext } from '../hooks/authHook.jsx';
+
+
 
 export function Registration() {
 
@@ -23,6 +26,7 @@ export function Registration() {
 
 
 const RegistrationForm = () => {
+  const { state, dispatch } = useAppContext();
   const navigate = useNavigate()
   const [user, setUser] = useState({
     name: null,
@@ -33,23 +37,24 @@ const RegistrationForm = () => {
     Ofertas: null,
     fechaNacimiento: '',
     gender: '',
-    online: false
+    online: false,
   });
   
-    const handleInputChange = (e) => {
-      const { name, value, type, checked } = e.target;
-      setUser((prevUser) => ({
-        ...prevUser,
-        [name]: type === 'checkbox' ? checked : value
-      }));
-    };
+  const handleInputChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setUser((prevUser) => ({
+      ...prevUser,
+      [name]: type === 'checkbox' ? checked : value
+    }));
+  };
 
-    const handleSubmit = (e) => {
-      e.preventDefault();
-      console.log('Usuario registrado:', user);
-      // saveUserDataToJson(user);
-      navigate('/login');
-    };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch({type: "REGISTRATION", payload: user})
+    console.log('Usuario registrado:', user);
+    // saveUserDataToJson(user);
+    navigate('/login');
+  };
     
       return (
         <form className={styles.formContainer} onSubmit={handleSubmit}>

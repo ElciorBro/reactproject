@@ -8,6 +8,8 @@ import './App.css'
 import { Login } from './component/LoginComponent.jsx';
 import { Registration } from './component/RegisterComponent.jsx';
 import { Carrito } from './component/CarritoComponent.jsx';
+import { ProductSection } from './component/ProductComponent.jsx';
+
 
 function App() {
   return (
@@ -20,6 +22,7 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Registration />} />
               <Route path="/carrito" element={<Carrito />} />
+              <Route path="/productos" element={<ProductSection />} />
               <Route path='*' element={<NoMatch/>}></Route>
             </Route>
           </Routes>

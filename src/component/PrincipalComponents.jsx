@@ -37,11 +37,17 @@ function LogedNavBar() {
     <nav className={styles.navbarContainer}>
       <Link to="/" className={styles.logo}>Logo</Link>
       <Link to="/cuenta" className={styles.links}>Mi Cuenta</Link>
-      <Link to="/" className={styles.links}>Salir</Link>
+      <Link to="/" onClick={handleLogout} className={styles.links}>Salir</Link>
       <input className={styles.links} type="text" placeholder="Search" />
       <Link to="/carrito" className={styles.links}>Carrito</Link>
     </nav>
   );
+}
+
+function handleLogout() {
+  dispatch({type: "LOGOUT"})
+  console.log("loged out")
+  navigate('/');
 }
 
 function NoMatch() {
@@ -70,8 +76,8 @@ function CategoryNav() {
   return (
     <nav className={styles.categoryNavContainer}>
       <div className="nuevo"><Link to="/">Home</Link></div>
-      <div className="art1"><Link to="/nuevo">Lo nuevo</Link></div>
-      <div className="art2"><Link to="/productos">Productos</Link></div>
+      <div className="nosotros"><Link to="/nosotros">Sobre Nosotros</Link></div>
+      <div className="productos"><Link to="/productos">Productos</Link></div>
       <div className="art3"><Link to="/liquidacion">Liquidacion</Link></div>
       <div className="art4"><Link to="/contactenos">Contactenos</Link></div>
     </nav>
