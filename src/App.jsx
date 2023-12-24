@@ -9,25 +9,34 @@ import { Login } from './component/LoginComponent.jsx';
 import { Registration } from './component/RegisterComponent.jsx';
 import { Carrito } from './component/CarritoComponent.jsx';
 import { ProductSection } from './component/ProductComponent.jsx';
+import { NewProduct } from './component/VentaSection.jsx';
+
+import {useQuery, QueryClient, QueryClientProvider} from '@tanstack/react-query'
+
+
+const queryClient = new QueryClient();
 
 
 function App() {
   return (
     <>
-      <AppProvider>
-        <Router>
-          <Routes>
-            <Route path="/" element={<Layout />}>
-              <Route index element={<Home />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Registration />} />
-              <Route path="/carrito" element={<Carrito />} />
-              <Route path="/productos" element={<ProductSection />} />
-              <Route path='*' element={<NoMatch/>}></Route>
-            </Route>
-          </Routes>
-        </Router>
-      </AppProvider>
+      <QueryClientProvider client={queryClient}>
+        <AppProvider>
+          <Router>
+            <Routes>
+              <Route path="/" element={<Layout />}>
+                <Route index element={<Home />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Registration />} />
+                <Route path="/carrito" element={<Carrito />} />
+                <Route path="/productos" element={<ProductSection />} />
+                <Route path="/vender" element={<NewProduct />} />
+                <Route path='*' element={<NoMatch/>}></Route>
+              </Route>
+            </Routes>
+          </Router>
+        </AppProvider>
+      </QueryClientProvider>
     </>
   );
 }

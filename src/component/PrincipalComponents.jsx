@@ -40,6 +40,7 @@ function LogedNavBar() {
       <Link to="/" onClick={handleLogout} className={styles.links}>Salir</Link>
       <input className={styles.links} type="text" placeholder="Search" />
       <Link to="/carrito" className={styles.links}>Carrito</Link>
+      <Link to="/vender" className={styles.links}>vender</Link>
     </nav>
   );
 }

@@ -23,6 +23,7 @@ export function useFetchData() {
         return res.json();
       })
       .then((data) => {
+        console.log('Datos recibidos:', data);
         if (isMounted) {
           setData(data.results);
           setIsLoading(false);

@@ -19,6 +19,7 @@ const AppContext = createContext();
 
 export const AppProvider = ({ children }) => {
   const initialState = {
+    user:'',
     name: '',
     email: '',
     password: '',
@@ -46,9 +47,9 @@ export const AppProvider = ({ children }) => {
           online: false,
         };
       case "REGISTRATION":
-        saveUserData(action.payload)
+        // saveUserData(action.payload)
         return {
-          ...state, user: action.payload, online: false
+          // ...state, user: action.payload, online: false
         }
       // Agrega más casos según tus necesidades
       default:

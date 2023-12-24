@@ -3,6 +3,8 @@ import { BrowserRouter as Router,Routes, Route, Outlet, Link, useParams, Navigat
 import styles from '../css/registrationForm.module.css';
 // import { saveUser } from '../utils/saveUser.js'
 import { useAppContext } from '../hooks/authHook.jsx';
+import {useMutation, QueryClient, QueryClientProvider} from '@tanstack/react-query'
+
 
 
 
@@ -26,32 +28,48 @@ export function Registration() {
 
 
 const RegistrationForm = () => {
-  const { state, dispatch } = useAppContext();
+  // const { state, dispatch } = useAppContext();
   const navigate = useNavigate()
   const [user, setUser] = useState({
-    name: null,
+    name: '',
     email: '',
     password: '',
-    telefono: '',
-    direccion: '',
-    Ofertas: null,
-    fechaNacimiento: '',
-    gender: '',
-    online: false,
+    avatar: ''
   });
+
+  const registerUser = async ({name, email, password, avatar}) => {
+    const response = await fetch('https://api.escuelajs.co/api/v1/users/', {
+        method: 'POST', //Puede ir POST, PUT o DELETE
+        headers: { //Aca va todo lo que tiene que ver con la info de la request
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({name, email, password, avatar})
+    });
+
+
+    if(!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message);
+    }
+
+    return response.json() 
+  }
+
+  const mutation = useMutation(registerUser);
   
   const handleInputChange = (e) => {
-    const { name, value, type, checked } = e.target;
+    const { name, value } = e.target;
     setUser((prevUser) => ({
       ...prevUser,
-      [name]: type === 'checkbox' ? checked : value
+      [name]: value,
     }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch({type: "REGISTRATION", payload: user})
+    // dispatch({type: "REGISTRATION", payload: user})
     console.log('Usuario registrado:', user);
+    mutation.mutate(user);
     // saveUserDataToJson(user);
     navigate('/login');
   };
@@ -84,67 +102,14 @@ const RegistrationForm = () => {
               value={user.password}
               onChange={handleInputChange}
             />
-          </label>
-
-          <label className={styles.label}>
-            Teléfono:
-            <input
-              className={styles.input}
-              type="tel"
-              name="telefono"
-              value={user.telefono}
-              onChange={handleInputChange}
-            />
-          </label>
-
-          <label className={styles.label}>
-            Dirección:
-            <input
-              className={styles.input}
-              type="text"
-              name="Direccion"
-              value={user.Direccion}
-              onChange={handleInputChange}
-            />
-          </label>
-
-          <label className={styles.label}>
-            Aceptar Ofertas:
-            <input
-              className={styles.input}
-              type="checkbox"
-              name="Ofertas"
-              checked={user.Ofertas}
-              onChange={handleInputChange}
-            />
-          </label>
-
-          <label className={styles.label}>
-            Fecha de Nacimiento:
-            <input
-              className={styles.input}
-              type="date"
-              name="fechaNacimiento"
-              value={user.fechaNacimiento}
-              onChange={handleInputChange}
-            />
-          </label>
-
-          <label className={styles.label}>
-            Género:
-            <select
-              className={styles.input}
-              name="gender"
-              value={user.gender}
-              onChange={handleInputChange}
-            >
-              <option value="">Seleccionar</option>
-              <option value="male">Masculino</option>
-              <option value="female">Femenino</option>
-              <option value="other">Otro</option>
-            </select>
           </label>    
-          <button type="submit">Registrarse</button>
+
+          <button type="submit" disabled={mutation.isLoading}>
+            {mutation.isLoading ? 'Registrando...' : 'Registrarse'}
+          </button>
+            {mutation.isError && <p>Error: {mutation.error.message}</p>}
+            {mutation.isSuccess && <p>Registro exitoso!</p>}
+
         </form>
       );
     };
